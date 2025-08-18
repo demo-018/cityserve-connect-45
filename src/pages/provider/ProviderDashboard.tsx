@@ -8,6 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Calendar, Clock, DollarSign, Star, Users, TrendingUp, Phone, MapPin } from 'lucide-react';
 import { mockBookings, mockServices, mockReviews } from '@/data/mockData';
 import Layout from '@/components/common/Layout';
+import ServiceFormModal from '@/components/provider/ServiceFormModal';
+import BookingDetailsModal from '@/components/admin/BookingDetailsModal';
+import CustomerDetailsModal from '@/components/admin/CustomerDetailsModal';
 
 const ProviderDashboard = () => {
   const { user } = useAuth();
@@ -52,6 +55,39 @@ const ProviderDashboard = () => {
     '09:00-10:00', '10:00-11:00', '11:00-12:00', '12:00-13:00',
     '14:00-15:00', '15:00-16:00', '16:00-17:00', '17:00-18:00'
   ];
+
+  // Modal states
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<any>(null);
+  const [serviceModalMode, setServiceModalMode] = useState<'add' | 'edit'>('add');
+  const [isBookingDetailsOpen, setIsBookingDetailsOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
+  const [isCustomerDetailsOpen, setIsCustomerDetailsOpen] = useState(false);
+  const [selectedCustomerId, setSelectedCustomerId] = useState('');
+  const [selectedCustomerName, setSelectedCustomerName] = useState('');
+
+  const handleAddService = () => {
+    setSelectedService(null);
+    setServiceModalMode('add');
+    setIsServiceModalOpen(true);
+  };
+
+  const handleEditService = (service: any) => {
+    setSelectedService(service);
+    setServiceModalMode('edit');
+    setIsServiceModalOpen(true);
+  };
+
+  const handleViewBookingDetails = (booking: any) => {
+    setSelectedBooking(booking);
+    setIsBookingDetailsOpen(true);
+  };
+
+  const handleCustomerClick = (customerId: string, customerName: string) => {
+    setSelectedCustomerId(customerId);
+    setSelectedCustomerName(customerName);
+    setIsCustomerDetailsOpen(true);
+  };
 
   return (
     <Layout>
@@ -156,7 +192,13 @@ const ProviderDashboard = () => {
                             </div>
                             <div className="flex items-center space-x-2">
                               <Users className="w-4 h-4" />
-                              <span>{booking.customerName}</span>
+                              <Button 
+                                variant="link" 
+                                className="p-0 h-auto font-medium text-primary hover:underline"
+                                onClick={() => handleCustomerClick(booking.customerId, booking.customerName)}
+                              >
+                                {booking.customerName}
+                              </Button>
                               <Phone className="w-4 h-4 ml-4" />
                               <span>{booking.customerPhone}</span>
                             </div>
@@ -177,6 +219,9 @@ const ProviderDashboard = () => {
                                   </>
                                 )}
                                 <Button variant="outline" size="sm">Contact</Button>
+                                <Button variant="outline" size="sm" onClick={() => handleViewBookingDetails(booking)}>
+                                  View Details
+                                </Button>
                               </div>
                             </div>
                           </div>
@@ -192,7 +237,7 @@ const ProviderDashboard = () => {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle>My Services</CardTitle>
-                  <Button variant="hero" size="sm">
+                  <Button variant="hero" size="sm" onClick={handleAddService}>
                     Add New Service
                   </Button>
                 </CardHeader>
@@ -218,7 +263,7 @@ const ProviderDashboard = () => {
                                 <span className="text-sm">{service.rating}</span>
                               </div>
                             </div>
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline" size="sm" onClick={() => handleEditService(service)}>
                               Edit
                             </Button>
                           </div>
@@ -307,6 +352,33 @@ const ProviderDashboard = () => {
             </TabsContent>
           </Tabs>
         </div>
+
+        {/* Modals */}
+        <ServiceFormModal
+          isOpen={isServiceModalOpen}
+          onClose={() => setIsServiceModalOpen(false)}
+          service={selectedService}
+          mode={serviceModalMode}
+        />
+
+        <BookingDetailsModal
+          booking={selectedBooking}
+          isOpen={isBookingDetailsOpen}
+          onClose={() => setIsBookingDetailsOpen(false)}
+          onCustomerClick={(customerId) => {
+            const booking = mockBookings.find(b => b.customerId === customerId);
+            if (booking) {
+              handleCustomerClick(customerId, booking.customerName);
+            }
+          }}
+        />
+
+        <CustomerDetailsModal
+          customerId={selectedCustomerId}
+          customerName={selectedCustomerName}
+          isOpen={isCustomerDetailsOpen}
+          onClose={() => setIsCustomerDetailsOpen(false)}
+        />
       </div>
     </Layout>
   );

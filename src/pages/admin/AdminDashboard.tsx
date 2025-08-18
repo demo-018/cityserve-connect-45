@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/enhanced-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { mockBookings, mockServices, mockProviders, mockReviews } from '@/data/mockData';
 import Layout from '@/components/common/Layout';
+import BookingDetailsModal from '@/components/admin/BookingDetailsModal';
+import CustomerDetailsModal from '@/components/admin/CustomerDetailsModal';
 
 const AdminDashboard = () => {
   const { user } = useAuth();
@@ -36,6 +38,24 @@ const AdminDashboard = () => {
   // Recent activities
   const recentBookings = mockBookings.slice(0, 5);
   const recentReviews = mockReviews.slice(0, 3);
+
+  // Modal states
+  const [isBookingDetailsOpen, setIsBookingDetailsOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
+  const [isCustomerDetailsOpen, setIsCustomerDetailsOpen] = useState(false);
+  const [selectedCustomerId, setSelectedCustomerId] = useState('');
+  const [selectedCustomerName, setSelectedCustomerName] = useState('');
+
+  const handleViewBookingDetails = (booking: any) => {
+    setSelectedBooking(booking);
+    setIsBookingDetailsOpen(true);
+  };
+
+  const handleCustomerClick = (customerId: string, customerName: string) => {
+    setSelectedCustomerId(customerId);
+    setSelectedCustomerName(customerName);
+    setIsCustomerDetailsOpen(true);
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -226,7 +246,13 @@ const AdminDashboard = () => {
                         <div className="flex items-center justify-between mb-3">
                           <div>
                             <h3 className="font-semibold">Booking #{booking.id}</h3>
-                            <p className="text-sm text-muted-foreground">{booking.customerName}</p>
+                            <Button 
+                              variant="link" 
+                              className="p-0 h-auto text-sm text-primary hover:underline"
+                              onClick={() => handleCustomerClick(booking.customerId, booking.customerName)}
+                            >
+                              {booking.customerName}
+                            </Button>
                           </div>
                           <Badge variant={getStatusColor(booking.status) as any}>
                             {booking.status}
@@ -246,7 +272,7 @@ const AdminDashboard = () => {
                             <p className="font-medium">₹{booking.totalAmount}</p>
                           </div>
                           <div className="flex space-x-2">
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline" size="sm" onClick={() => handleViewBookingDetails(booking)}>
                               <Eye className="w-4 h-4" />
                             </Button>
                             <Button variant="outline" size="sm">
@@ -417,6 +443,21 @@ const AdminDashboard = () => {
             </TabsContent>
           </Tabs>
         </div>
+
+        {/* Modals */}
+        <BookingDetailsModal
+          booking={selectedBooking}
+          isOpen={isBookingDetailsOpen}
+          onClose={() => setIsBookingDetailsOpen(false)}
+          onCustomerClick={handleCustomerClick}
+        />
+
+        <CustomerDetailsModal
+          customerId={selectedCustomerId}
+          customerName={selectedCustomerName}
+          isOpen={isCustomerDetailsOpen}
+          onClose={() => setIsCustomerDetailsOpen(false)}
+        />
       </div>
     </Layout>
   );

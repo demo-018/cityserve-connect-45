@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Search, MapPin, Star, Clock, Filter } from 'lucide-react';
 import { serviceCategories, providers } from '@/data/mockData';
 import BookingModal from '@/components/booking/BookingModal';
+import ProviderProfileModal from '@/components/provider/ProviderProfileModal';
 
 const Services = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,6 +16,7 @@ const Services = () => {
   const [selectedLocation, setSelectedLocation] = useState('all');
   const [selectedProvider, setSelectedProvider] = useState<any>(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   const filteredProviders = providers.filter(provider => {
     const matchesSearch = provider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -28,6 +30,11 @@ const Services = () => {
   const handleBookNow = (provider: any) => {
     setSelectedProvider(provider);
     setIsBookingModalOpen(true);
+  };
+
+  const handleViewProfile = (provider: any) => {
+    setSelectedProvider(provider);
+    setIsProfileModalOpen(true);
   };
 
   return (
@@ -188,7 +195,7 @@ const Services = () => {
                         <span className="text-sm text-muted-foreground">/hour</span>
                       </div>
                       <div className="space-x-2">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => handleViewProfile(provider)}>
                           View Profile
                         </Button>
                         <Button variant="default" size="sm" disabled={!provider.isAvailable} onClick={() => handleBookNow(provider)}>
@@ -217,6 +224,12 @@ const Services = () => {
           provider={selectedProvider}
           isOpen={isBookingModalOpen}
           onClose={() => setIsBookingModalOpen(false)}
+        />
+
+        <ProviderProfileModal
+          provider={selectedProvider}
+          isOpen={isProfileModalOpen}
+          onClose={() => setIsProfileModalOpen(false)}
         />
       </div>
     </Layout>
