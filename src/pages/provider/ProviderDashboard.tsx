@@ -365,12 +365,7 @@ const ProviderDashboard = () => {
           booking={selectedBooking}
           isOpen={isBookingDetailsOpen}
           onClose={() => setIsBookingDetailsOpen(false)}
-          onCustomerClick={(customerId) => {
-            const booking = mockBookings.find(b => b.customerId === customerId);
-            if (booking) {
-              handleCustomerClick(customerId, booking.customerName);
-            }
-          }}
+          onCustomerClick={handleCustomerClick}
         />
 
         <CustomerDetailsModal

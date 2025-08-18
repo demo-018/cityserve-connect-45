@@ -25,7 +25,7 @@ interface BookingDetailsModalProps {
   booking: any;
   isOpen: boolean;
   onClose: () => void;
-  onCustomerClick?: (customerId: string) => void;
+  onCustomerClick?: (customerId: string, customerName: string) => void;
 }
 
 const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
@@ -128,7 +128,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
                   <Button 
                     variant="link" 
                     className="p-0 h-auto font-semibold text-primary hover:underline"
-                    onClick={() => onCustomerClick?.(booking.customerId)}
+                    onClick={() => onCustomerClick?.(booking.customerId, booking.customerName)}
                   >
                     {booking.customerName}
                   </Button>
