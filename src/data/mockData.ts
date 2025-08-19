@@ -50,7 +50,7 @@ export interface Booking {
   customerName: string;
   customerPhone: string;
   customerAddress: string;
-  paymentStatus: 'pending' | 'paid' | 'failed';
+  paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded';
   createdAt: string;
 }
 
@@ -222,6 +222,96 @@ export const mockBookings: Booking[] = [
     customerAddress: 'A-123, Green Park Extension, New Delhi',
     paymentStatus: 'pending',
     createdAt: '2024-01-21T14:15:00Z'
+  },
+  {
+    id: 'booking3',
+    customerId: '1',
+    providerId: '3',
+    serviceId: '2',
+    date: '2024-01-18',
+    timeSlot: '14:00-15:00',
+    status: 'completed',
+    totalAmount: 1999,
+    customerName: 'Rajesh Kumar',
+    customerPhone: '+91 98765 43210',
+    customerAddress: 'A-123, Green Park Extension, New Delhi',
+    paymentStatus: 'paid',
+    createdAt: '2024-01-16T09:15:00Z'
+  },
+  {
+    id: 'booking4',
+    customerId: '1',
+    providerId: '5',
+    serviceId: '5',
+    date: '2024-01-20',
+    timeSlot: '11:00-13:00',
+    status: 'in-progress',
+    totalAmount: 3499,
+    customerName: 'Rajesh Kumar',
+    customerPhone: '+91 98765 43210',
+    customerAddress: 'A-123, Green Park Extension, New Delhi',
+    paymentStatus: 'paid',
+    createdAt: '2024-01-18T16:20:00Z'
+  },
+  {
+    id: 'booking5',
+    customerId: '1',
+    providerId: '6',
+    serviceId: '7',
+    date: '2024-01-15',
+    timeSlot: '09:00-17:00',
+    status: 'completed',
+    totalAmount: 8999,
+    customerName: 'Rajesh Kumar',
+    customerPhone: '+91 98765 43210',
+    customerAddress: 'A-123, Green Park Extension, New Delhi',
+    paymentStatus: 'paid',
+    createdAt: '2024-01-13T11:45:00Z'
+  },
+  {
+    id: 'booking6',
+    customerId: '1',
+    providerId: '1',
+    serviceId: '1',
+    date: '2024-01-12',
+    timeSlot: '16:00-18:00',
+    status: 'cancelled',
+    totalAmount: 1799,
+    customerName: 'Rajesh Kumar',
+    customerPhone: '+91 98765 43210',
+    customerAddress: 'A-123, Green Park Extension, New Delhi',
+    paymentStatus: 'refunded',
+    createdAt: '2024-01-10T14:30:00Z'
+  },
+  {
+    id: 'booking7',
+    customerId: '1',
+    providerId: '7',
+    serviceId: '9',
+    date: '2024-01-14',
+    timeSlot: '10:00-12:00',
+    status: 'completed',
+    totalAmount: 2299,
+    customerName: 'Rajesh Kumar',
+    customerPhone: '+91 98765 43210',
+    customerAddress: 'A-123, Green Park Extension, New Delhi',
+    paymentStatus: 'paid',
+    createdAt: '2024-01-12T08:15:00Z'
+  },
+  {
+    id: 'booking8',
+    customerId: '1',
+    providerId: '8',
+    serviceId: '11',
+    date: '2024-01-16',
+    timeSlot: '13:00-14:30',
+    status: 'cancelled',
+    totalAmount: 1499,
+    customerName: 'Rajesh Kumar',
+    customerPhone: '+91 98765 43210',
+    customerAddress: 'A-123, Green Park Extension, New Delhi',
+    paymentStatus: 'refunded',
+    createdAt: '2024-01-14T10:20:00Z'
   }
 ];
 
