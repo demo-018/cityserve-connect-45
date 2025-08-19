@@ -71,7 +71,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto mx-4 sm:mx-6 flex flex-col justify-center">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col justify-center">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>Booking Details #{booking.id}</span>
