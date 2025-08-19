@@ -48,7 +48,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
       case 'in-progress':
         return 'info';
       case 'completed':
-        return 'secondary';
+        return 'success';
       case 'cancelled':
         return 'destructive';
       default:
@@ -71,7 +71,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto flex flex-col justify-center">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>Booking Details #{booking.id}</span>
@@ -82,8 +82,8 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
         </DialogHeader>
 
         <div className="space-y-6 mt-6">
-          {/* Service Information */}
-          <Card>
+          {/* Service Information - Hidden on mobile */}
+          <Card className="hidden sm:block">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <FileText className="h-5 w-5 mr-2" />
@@ -113,8 +113,8 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
             </CardContent>
           </Card>
 
-          {/* Customer Information */}
-          <Card>
+          {/* Customer Information - Hidden on mobile */}
+          <Card className="hidden sm:block">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <User className="h-5 w-5 mr-2" />

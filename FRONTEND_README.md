@@ -260,11 +260,20 @@ import { Badge } from "@/components/ui/badge";
 
 <Badge>Default</Badge>
 <Badge variant="secondary">Secondary</Badge>
-<Badge variant="success">Available</Badge>
+<Badge variant="success">Available/Completed</Badge>
 <Badge variant="warning">Pending</Badge>
+<Badge variant="info">In Progress</Badge>
 <Badge variant="destructive">Cancelled</Badge>
 <Badge variant="outline">Outline</Badge>
 ```
+
+#### Status Color System
+The badge component supports semantic color variants for booking statuses:
+- `success` - For completed and confirmed bookings (green)
+- `warning` - For pending bookings (amber/yellow)
+- `info` - For in-progress bookings (cyan/blue)
+- `destructive` - For cancelled bookings (red)
+- `secondary` - For general/default states (muted)
 
 ## 📄 Page Structure
 
@@ -307,6 +316,9 @@ export default function YourPage() {
 - **Profile Navigation**: Admin can click customer/provider names to view their profiles
 - **Mobile Responsive Design**: All modals and components optimized for mobile
 - **Enhanced Button Alignment**: Fixed mobile view issues with proper flex wrapping
+- **Responsive Booking Details Modal**: Service and Customer Information sections hidden on mobile (sm and below)
+- **Status Color System**: Improved status color mapping with distinct colors for different booking states
+- **Customer Dashboard Booking Management**: Cancel functionality for pending bookings, removed reschedule option
 
 ## 🎯 State Management
 
