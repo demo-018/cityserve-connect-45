@@ -71,7 +71,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto mx-4 sm:mx-6">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             <span>Booking Details #{booking.id}</span>
@@ -90,7 +90,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
                 Service Information
               </CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-4">
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Service Name</p>
                 <p className="font-semibold">{service?.name}</p>
@@ -122,7 +122,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Customer Name</p>
                    <Button 
@@ -137,7 +137,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
                   <p className="text-sm text-muted-foreground">Phone</p>
                   <div className="flex items-center">
                     <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
-                    <span className="font-medium">{booking.customerPhone}</span>
+                    <span className="font-medium break-all">{booking.customerPhone}</span>
                   </div>
                 </div>
               </div>
@@ -160,7 +160,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
               </CardTitle>
             </CardHeader>
             <CardContent>
-               <div className="grid grid-cols-2 gap-4">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div>
                    <p className="text-sm text-muted-foreground">Provider Name</p>
                    <Button 
@@ -175,14 +175,14 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
                   <p className="text-sm text-muted-foreground">Phone</p>
                   <div className="flex items-center">
                     <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
-                    <span className="font-medium">{provider?.phone}</span>
+                    <span className="font-medium break-all">{provider?.phone}</span>
                   </div>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Email</p>
                   <div className="flex items-center">
                     <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
-                    <span className="font-medium">{provider?.email}</span>
+                    <span className="font-medium break-all">{provider?.email}</span>
                   </div>
                 </div>
                 <div>
@@ -208,7 +208,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Date</p>
                   <div className="flex items-center">
@@ -233,7 +233,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Booking ID</p>
-                  <span className="font-medium text-sm">{booking.id}</span>
+                  <span className="font-medium text-sm break-all">{booking.id}</span>
                 </div>
               </div>
             </CardContent>
@@ -248,7 +248,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Total Amount</p>
                   <p className="text-2xl font-bold text-primary">₹{booking.totalAmount}</p>
@@ -272,7 +272,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
           </Card>
 
           {/* Action Buttons */}
-          <div className="flex space-x-3 pt-4">
+          <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <Button variant="outline" className="flex-1">
               Send Notification
             </Button>

@@ -498,6 +498,25 @@ interface CreateReviewData {
 interface GetReviewsParams {
   service_id?: string;
   provider_id?: string;
+  page?: number;
+  limit?: number;
+}
+
+### Recent Updates & New Features
+
+#### Profile Management
+- **Customer Profiles**: Complete customer information with booking history, reviews
+- **Provider Profiles**: Enhanced business profiles with services, ratings, availability
+- **Admin Profile Access**: Admin can view detailed customer and provider profiles
+
+#### Booking System Enhancements
+- **Pagination**: Booking lists now support pagination (5 items per page)
+- **Detailed Booking Views**: Comprehensive booking details with customer/provider information
+- **Mobile Responsive**: All booking interfaces optimized for mobile devices
+
+#### Navigation Updates
+- **Profile Navigation**: Direct links from booking details to customer/provider profiles
+- **Modal Optimization**: All modals now properly responsive for mobile screens
   customer_id?: string;
   min_rating?: number;
   page?: number;
