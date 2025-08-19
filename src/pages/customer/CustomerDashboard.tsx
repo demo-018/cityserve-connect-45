@@ -44,7 +44,7 @@ const CustomerDashboard = () => {
       case 'in-progress':
         return 'info';
       case 'completed':
-        return 'secondary';
+        return 'success';
       case 'cancelled':
         return 'destructive';
       default:
