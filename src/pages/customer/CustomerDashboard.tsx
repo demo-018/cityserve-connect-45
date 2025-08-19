@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/enhanced-button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Clock, MapPin, Star, Plus, CreditCard } from 'lucide-react';
+import { Calendar, Clock, MapPin, Star, Plus, CreditCard, Eye, User } from 'lucide-react';
 import { mockBookings, mockServices, mockProviders } from '@/data/mockData';
 import Layout from '@/components/common/Layout';
 import { useBookings } from '@/hooks/useBookings';
+import BookingDetailsModal from '@/components/admin/BookingDetailsModal';
+import ProviderProfileModal from '@/components/provider/ProviderProfileModal';
 
 const CustomerDashboard = () => {
   const { user } = useAuth();
   const { bookings, cancelBooking } = useBookings();
+  
+  // Modal states
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [selectedProvider, setSelectedProvider] = useState(null);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showProviderModal, setShowProviderModal] = useState(false);
   
   // Get user's bookings
   const userBookings = mockBookings.filter(booking => booking.customerId === user?.id);
@@ -21,6 +29,11 @@ const CustomerDashboard = () => {
   const completedBookings = userBookings.filter(booking => 
     booking.status === 'completed'
   );
+  
+  // Recent activity shows in-progress, completed, and cancelled bookings
+  const recentActivityBookings = userBookings.filter(booking => 
+    ['in-progress', 'completed', 'cancelled'].includes(booking.status)
+  ).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -45,6 +58,28 @@ const CustomerDashboard = () => {
 
   const getProviderDetails = (providerId: string) => {
     return mockProviders.find(provider => provider.id === providerId);
+  };
+
+  // Handler functions for modals
+  const handleViewBookingDetails = (booking: any) => {
+    setSelectedBooking(booking);
+    setShowBookingModal(true);
+  };
+
+  const handleViewProviderProfile = (booking: any) => {
+    const provider = getProviderDetails(booking.providerId);
+    setSelectedProvider(provider);
+    setShowProviderModal(true);
+  };
+
+  const handleCloseBookingModal = () => {
+    setShowBookingModal(false);
+    setSelectedBooking(null);
+  };
+
+  const handleCloseProviderModal = () => {
+    setShowProviderModal(false);
+    setSelectedProvider(null);
   };
 
   return (
@@ -179,29 +214,63 @@ const CustomerDashboard = () => {
                   <CardTitle>Recent Activity</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    {completedBookings.slice(0, 3).map((booking) => {
-                      const service = getServiceDetails(booking.serviceId);
-                      const provider = getProviderDetails(booking.providerId);
-                      
-                      return (
-                        <div key={booking.id} className="flex items-center space-x-4 p-3 border rounded-lg">
-                          <div className="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center">
-                            <Star className="w-5 h-5 text-success" />
+                  {recentActivityBookings.length > 0 ? (
+                    <div className="space-y-4">
+                      {recentActivityBookings.map((booking) => {
+                        const service = getServiceDetails(booking.serviceId);
+                        const provider = getProviderDetails(booking.providerId);
+                        
+                        return (
+                          <div key={booking.id} className="border rounded-lg p-4 hover:bg-accent/50 transition-colors">
+                            <div className="flex items-center justify-between mb-3">
+                              <h3 className="font-semibold">{service?.name}</h3>
+                              <Badge variant={getStatusColor(booking.status) as any}>
+                                {booking.status}
+                              </Badge>
+                            </div>
+                            <div className="space-y-2 text-sm text-muted-foreground">
+                              <div className="flex items-center space-x-2">
+                                <Calendar className="w-4 h-4" />
+                                <span>{new Date(booking.date).toLocaleDateString()}</span>
+                                <Clock className="w-4 h-4 ml-4" />
+                                <span>{booking.timeSlot}</span>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <MapPin className="w-4 h-4" />
+                                <span>Provider: {provider?.name}</span>
+                              </div>
+                              <div className="flex items-center justify-between mt-3">
+                                <span className="font-semibold text-foreground">₹{booking.totalAmount}</span>
+                                <div className="space-x-2">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={() => handleViewBookingDetails(booking)}
+                                  >
+                                    <Eye className="w-4 h-4 mr-1" />
+                                    View Details
+                                  </Button>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={() => handleViewProviderProfile(booking)}
+                                  >
+                                    <User className="w-4 h-4 mr-1" />
+                                    Provider
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex-1">
-                            <p className="font-medium">{service?.name}</p>
-                            <p className="text-sm text-muted-foreground">
-                              Completed on {new Date(booking.date).toLocaleDateString()}
-                            </p>
-                          </div>
-                          <Button variant="outline" size="sm">
-                            Rate Service
-                          </Button>
-                        </div>
-                      );
-                    })}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                      <p className="text-muted-foreground">No recent activity</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
@@ -263,6 +332,23 @@ const CustomerDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      {showBookingModal && selectedBooking && (
+        <BookingDetailsModal
+          booking={selectedBooking}
+          isOpen={showBookingModal}
+          onClose={handleCloseBookingModal}
+        />
+      )}
+
+      {showProviderModal && selectedProvider && (
+        <ProviderProfileModal
+          provider={selectedProvider}
+          isOpen={showProviderModal}
+          onClose={handleCloseProviderModal}
+        />
+      )}
     </Layout>
   );
 };
