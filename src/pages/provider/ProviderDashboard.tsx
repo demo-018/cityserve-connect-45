@@ -11,6 +11,7 @@ import Layout from '@/components/common/Layout';
 import ServiceFormModal from '@/components/provider/ServiceFormModal';
 import BookingDetailsModal from '@/components/admin/BookingDetailsModal';
 import CustomerDetailsModal from '@/components/admin/CustomerDetailsModal';
+import BookingsWithPagination from '@/components/provider/BookingsWithPagination';
 
 const ProviderDashboard = () => {
   const { user } = useAuth();
@@ -163,74 +164,13 @@ const ProviderDashboard = () => {
             </TabsList>
 
             <TabsContent value="bookings" className="space-y-6">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle>Recent Bookings</CardTitle>
-                  <Button variant="outline" size="sm">
-                    View All
-                  </Button>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {providerBookings.slice(0, 5).map((booking) => {
-                      const service = providerServices.find(s => s.id === booking.serviceId);
-                      
-                      return (
-                        <div key={booking.id} className="border rounded-lg p-4 hover:bg-accent/50 transition-colors">
-                          <div className="flex items-center justify-between mb-3">
-                            <h3 className="font-semibold">{service?.name}</h3>
-                            <Badge variant={getStatusColor(booking.status) as any}>
-                              {booking.status}
-                            </Badge>
-                          </div>
-                          <div className="space-y-2 text-sm text-muted-foreground">
-                            <div className="flex items-center space-x-2">
-                              <Calendar className="w-4 h-4" />
-                              <span>{new Date(booking.date).toLocaleDateString()}</span>
-                              <Clock className="w-4 h-4 ml-4" />
-                              <span>{booking.timeSlot}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <Users className="w-4 h-4" />
-                              <Button 
-                                variant="link" 
-                                className="p-0 h-auto font-medium text-primary hover:underline"
-                                onClick={() => handleCustomerClick(booking.customerId, booking.customerName)}
-                              >
-                                {booking.customerName}
-                              </Button>
-                              <Phone className="w-4 h-4 ml-4" />
-                              <span>{booking.customerPhone}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <MapPin className="w-4 h-4" />
-                              <span className="truncate">{booking.customerAddress}</span>
-                            </div>
-                            <div className="flex items-center justify-between mt-3">
-                              <span className="font-semibold text-foreground">₹{booking.totalAmount}</span>
-                              <div className="space-x-2">
-                                {booking.status === 'confirmed' && (
-                                  <Button variant="hero" size="sm">Start Service</Button>
-                                )}
-                                {booking.status === 'pending' && (
-                                  <>
-                                    <Button variant="outline" size="sm">Decline</Button>
-                                    <Button variant="success" size="sm">Accept</Button>
-                                  </>
-                                )}
-                                <Button variant="outline" size="sm">Contact</Button>
-                                <Button variant="outline" size="sm" onClick={() => handleViewBookingDetails(booking)}>
-                                  View Details
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-              </Card>
+              <BookingsWithPagination 
+                bookings={providerBookings}
+                providerServices={providerServices}
+                onViewBookingDetails={handleViewBookingDetails}
+                onCustomerClick={handleCustomerClick}
+                getStatusColor={getStatusColor}
+              />
             </TabsContent>
 
             <TabsContent value="services" className="space-y-6">

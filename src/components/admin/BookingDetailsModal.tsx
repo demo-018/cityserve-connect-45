@@ -125,13 +125,13 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Customer Name</p>
-                  <Button 
-                    variant="link" 
-                    className="p-0 h-auto font-semibold text-primary hover:underline"
-                    onClick={() => onCustomerClick?.(booking.customerId, booking.customerName)}
-                  >
-                    {booking.customerName}
-                  </Button>
+                   <Button 
+                     variant="link" 
+                     className="p-0 h-auto font-semibold text-primary hover:underline"
+                     onClick={() => window.open(`/customer/profile/${booking.customerId}`, '_blank')}
+                   >
+                     {booking.customerName}
+                   </Button>
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Phone</p>
@@ -160,11 +160,17 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Provider Name</p>
-                  <p className="font-semibold">{provider?.name}</p>
-                </div>
+               <div className="grid grid-cols-2 gap-4">
+                 <div>
+                   <p className="text-sm text-muted-foreground">Provider Name</p>
+                   <Button 
+                     variant="link" 
+                     className="p-0 h-auto font-semibold text-primary hover:underline"
+                     onClick={() => window.open(`/provider/profile/${provider?.id}`, '_blank')}
+                   >
+                     {provider?.name}
+                   </Button>
+                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Phone</p>
                   <div className="flex items-center">

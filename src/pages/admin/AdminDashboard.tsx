@@ -164,10 +164,6 @@ const AdminDashboard = () => {
                       <Badge variant="warning">{mockProviders.filter(p => !p.verified).length} Pending</Badge>
                     </div>
                     <div className="flex items-center justify-between p-3 border rounded-lg">
-                      <span>Booking Disputes</span>
-                      <Badge variant="destructive">2 Active</Badge>
-                    </div>
-                    <div className="flex items-center justify-between p-3 border rounded-lg">
                       <span>Service Approvals</span>
                       <Badge variant="warning">1 Pending</Badge>
                     </div>
@@ -246,13 +242,13 @@ const AdminDashboard = () => {
                         <div className="flex items-center justify-between mb-3">
                           <div>
                             <h3 className="font-semibold">Booking #{booking.id}</h3>
-                            <Button 
-                              variant="link" 
-                              className="p-0 h-auto text-sm text-primary hover:underline"
-                              onClick={() => handleCustomerClick(booking.customerId, booking.customerName)}
-                            >
-                              {booking.customerName}
-                            </Button>
+                             <Button 
+                               variant="link" 
+                               className="p-0 h-auto text-sm text-primary hover:underline"
+                               onClick={() => window.open(`/customer/profile/${booking.customerId}`, '_blank')}
+                             >
+                               {booking.customerName}
+                             </Button>
                           </div>
                           <Badge variant={getStatusColor(booking.status) as any}>
                             {booking.status}
@@ -333,14 +329,18 @@ const AdminDashboard = () => {
                             <p className="text-muted-foreground">Experience</p>
                             <p className="font-medium">{provider.experience} years</p>
                           </div>
-                          <div className="flex space-x-2">
-                            <Button variant="outline" size="sm">
-                              <Eye className="w-4 h-4" />
-                            </Button>
-                            <Button variant={provider.verified ? 'outline' : 'success'} size="sm">
-                              <UserCheck className="w-4 h-4" />
-                            </Button>
-                          </div>
+                           <div className="flex space-x-2">
+                             <Button 
+                               variant="outline" 
+                               size="sm"
+                               onClick={() => window.open(`/provider/profile/${provider.id}`, '_blank')}
+                             >
+                               <Eye className="w-4 h-4" />
+                             </Button>
+                             <Button variant={provider.verified ? 'outline' : 'success'} size="sm">
+                               <UserCheck className="w-4 h-4" />
+                             </Button>
+                           </div>
                         </div>
                       </div>
                     ))}
