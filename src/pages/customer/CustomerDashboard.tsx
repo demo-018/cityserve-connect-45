@@ -188,7 +188,15 @@ const CustomerDashboard = () => {
                                 <span className="font-semibold text-foreground">₹{booking.totalAmount}</span>
                                 <div className="space-x-2">
                                   <Button variant="outline" size="sm">Contact</Button>
-                                  <Button variant="hero" size="sm">Reschedule</Button>
+                                  {booking.status === 'pending' && (
+                                    <Button 
+                                      variant="destructive" 
+                                      size="sm"
+                                      onClick={() => cancelBooking(booking.id)}
+                                    >
+                                      Cancel
+                                    </Button>
+                                  )}
                                 </div>
                               </div>
                             </div>
