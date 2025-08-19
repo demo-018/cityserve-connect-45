@@ -186,7 +186,14 @@ const CustomerDashboard = () => {
                               </div>
                               <div className="flex items-center justify-between mt-3">
                                 <span className="font-semibold text-foreground">₹{booking.totalAmount}</span>
-                                <div className="space-x-2">
+                                <div className="space-x-2 flex flex-wrap gap-2">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    onClick={() => handleViewBookingDetails(booking)}
+                                  >
+                                    View Details
+                                  </Button>
                                   <Button variant="outline" size="sm">Contact</Button>
                                   {booking.status === 'pending' && (
                                     <Button 
